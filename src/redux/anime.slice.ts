@@ -10,10 +10,12 @@ import {
 export type AnimeState = {
   animeCharacters: AnimeCharacter[];
   error: Error | null;
+  loading: 'loading' | 'load';
 };
 const initialState: AnimeState = {
   animeCharacters: [],
   error: null,
+  loading: 'loading',
 };
 export const animeSlice = createSlice({
   name: 'animeCharacters',
@@ -22,26 +24,28 @@ export const animeSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       animeCharactersLoadThunk.fulfilled,
-      (state, { payload }) => {
+      (state, { payload }: { payload: AnimeCharacter[] }) => {
         state.animeCharacters = payload;
+        state.loading = 'load';
       }
     );
     builder.addCase(animeCharactersLoadThunk.rejected, (state) => {
-      console.log('rej');
       const error = new Error('Error loading characters');
       state.error = error;
+    });
+    builder.addCase(animeCharactersLoadThunk.pending, (state) => {
+      state.loading = 'loading';
     });
     builder.addCase(
       animeCharactersCreateThunk.fulfilled,
       (state, { payload }: { payload: AnimeCharacter }) => {
-        console.log('ful');
         state.animeCharacters.push(payload);
       }
     );
-    builder.addCase(animeCharactersCreateThunk.rejected, (state) => {
-      const error = new Error('Error loading characters');
-      state.error = error;
-    });
+    // builder.addCase(animeCharactersCreateThunk.rejected, (state) => {
+    //   const error = new Error('Error loading characters');
+    //   state.error = error;
+    // });
     builder.addCase(
       animeCharacterUpdateThunk.fulfilled,
       (state, { payload }: { payload: AnimeCharacter }) => {
@@ -50,23 +54,22 @@ export const animeSlice = createSlice({
         );
       }
     );
-    builder.addCase(animeCharacterUpdateThunk.rejected, (state) => {
-      const error = new Error('Error updating characters');
-      state.error = error;
-    });
+    // builder.addCase(animeCharacterUpdateThunk.rejected, (state) => {
+    //   const error = new Error('Error updating characters');
+    //   state.error = error;
+    // });
     builder.addCase(
       animeCharacterDeleteThunk.fulfilled,
       (state, { payload }: { payload: AnimeCharacter['id'] }) => {
-        console.log('delete');
         state.animeCharacters = state.animeCharacters.filter(
           (character) => character.id !== payload
         );
       }
     );
-    builder.addCase(animeCharacterDeleteThunk.rejected, (state) => {
-      const error = new Error('Error updating characters');
-      state.error = error;
-    });
+    // builder.addCase(animeCharacterDeleteThunk.rejected, (state) => {
+    //   const error = new Error('Error updating characters');
+    //   state.error = error;
+    // });
   },
 });
 
