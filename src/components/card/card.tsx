@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useCharacters } from '../../hook/useCharacters';
 import { AnimeCharacter } from '../../model/anime.character';
 
@@ -5,7 +6,7 @@ type Props = {
   animeCharacter: AnimeCharacter;
 };
 export const Card = ({ animeCharacter }: Props) => {
-  const { deleteCharacter, updateCharacter } = useCharacters();
+  const { deleteCharacter } = useCharacters();
 
   return (
     <li className="card">
@@ -22,13 +23,9 @@ export const Card = ({ animeCharacter }: Props) => {
         >
           ❌
         </span>
-        <span
-          role="button"
-          onClick={() => updateCharacter(animeCharacter)}
-          className="edit"
-        >
-          🔨
-        </span>
+        <Link to={`/${animeCharacter.id}`}>
+          <span className="edit">🔨</span>
+        </Link>
       </div>
     </li>
   );

@@ -1,5 +1,9 @@
-import { Characters } from './characters/characters';
+import { AppRoutes } from './app.routes/app.routes';
 
 export const App = () => {
-  return <Characters></Characters>;
+  return (
+    <>
+      <AppRoutes></AppRoutes>
+    </>
+  );
 };

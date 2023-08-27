@@ -1,9 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AnimeCharacter } from '../model/anime.character';
+import { AnimeCharacter, AnimeCharacterNoId } from '../model/anime.character';
 import {
   animeCharacterDeleteThunk,
   animeCharacterUpdateThunk,
+  animeCharactersCreateThunk,
   animeCharactersLoadThunk,
 } from '../redux/anime.characters.thunk';
 import { ApiAnimeCharactersRepository } from '../services/anime.repository';
@@ -24,11 +25,15 @@ export const useCharacters = () => {
   const deleteCharacter = (animeCharacter: AnimeCharacter) => {
     dispatch(animeCharacterDeleteThunk({ animeCharacter, repo }));
   };
+  const create = async (animeCharacterNoId: AnimeCharacterNoId) => {
+    dispatch(animeCharactersCreateThunk({ repo, animeCharacterNoId }));
+  };
 
   return {
     characters: animeState.animeCharacters,
     loadCharacters,
     updateCharacter,
     deleteCharacter,
+    create,
   };
 };
