@@ -1,3 +1,5 @@
+import { Characters } from './characters/characters';
+
 export const App = () => {
-  return <App></App>;
+  return <Characters></Characters>;
 };

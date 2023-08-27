@@ -1,7 +1,7 @@
 import { AnimeCharacter, AnimeCharacterNoId } from '../model/anime.character';
 import { Repository } from './repository';
 
-export class ApianimeCharactersRepository
+export class ApiAnimeCharactersRepository
   implements Repository<AnimeCharacter>
 {
   urlBase: string;
@@ -14,6 +14,7 @@ export class ApianimeCharactersRepository
     if (!response.ok)
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     const data = await response.json();
+    console.log(data);
     return data;
   }
 

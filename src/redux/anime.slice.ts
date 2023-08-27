@@ -7,7 +7,7 @@ import {
   animeCharactersLoadThunk,
 } from './anime.characters.thunk';
 
-type AnimeState = {
+export type AnimeState = {
   animeCharacters: AnimeCharacter[];
   error: Error | null;
 };
@@ -27,12 +27,14 @@ export const animeSlice = createSlice({
       }
     );
     builder.addCase(animeCharactersLoadThunk.rejected, (state) => {
+      console.log('rej');
       const error = new Error('Error loading characters');
       state.error = error;
     });
     builder.addCase(
       animeCharactersCreateThunk.fulfilled,
       (state, { payload }: { payload: AnimeCharacter }) => {
+        console.log('ful');
         state.animeCharacters.push(payload);
       }
     );
@@ -43,7 +45,7 @@ export const animeSlice = createSlice({
     builder.addCase(
       animeCharacterUpdateThunk.fulfilled,
       (state, { payload }: { payload: AnimeCharacter }) => {
-        state.animeCharacters.map((character) =>
+        state.animeCharacters = state.animeCharacters.map((character) =>
           character.id === payload.id ? payload : character
         );
       }
@@ -55,7 +57,10 @@ export const animeSlice = createSlice({
     builder.addCase(
       animeCharacterDeleteThunk.fulfilled,
       (state, { payload }: { payload: AnimeCharacter['id'] }) => {
-        state.animeCharacters.filter((character) => character.id !== payload);
+        console.log('delete');
+        state.animeCharacters = state.animeCharacters.filter(
+          (character) => character.id !== payload
+        );
       }
     );
     builder.addCase(animeCharacterDeleteThunk.rejected, (state) => {
@@ -66,4 +71,4 @@ export const animeSlice = createSlice({
 });
 
 export const actions = animeSlice.actions;
-export const animeReducer = animeSlice.reducer;
+export default animeSlice.reducer;
