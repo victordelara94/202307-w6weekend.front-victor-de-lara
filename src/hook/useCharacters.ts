@@ -9,7 +9,7 @@ import {
 } from '../redux/anime.characters.thunk';
 import { ApiAnimeCharactersRepository } from '../services/anime.repository';
 import { AppDispatch, RootState } from '../store/store';
-const urlBase = 'https://two02307-w6weekend-victor-de-lara.onrender.com/';
+const urlBase = 'http://localhost:4300';
 export const useCharacters = () => {
   const animeState = useSelector((state: RootState) => state.anime);
   const repo = useMemo(() => new ApiAnimeCharactersRepository(urlBase), []);
